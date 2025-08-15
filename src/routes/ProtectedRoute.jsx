@@ -1,0 +1,19 @@
+import React, {useEffect} from 'react'
+import { useNavigate, Outlet } from 'react-router-dom'
+
+function ProtectedRoute() {
+  const navigate = useNavigate()
+  const token = localStorage.getItem('token')
+
+  useEffect(()=>{
+    if(!token){
+        navigate("/auth/register")
+    }
+  },[])
+
+  return (
+    <Outlet />
+  )
+}
+
+export default ProtectedRoute

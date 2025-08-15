@@ -3,26 +3,29 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import AddBlogForm from './components/AddBlogForm'
 import ListBlog from './components/ListBlog'
+import EditBlogForm from './components/EditBlogForm'
+import Register from './components/Register'
+import ProtectedRoute from './routes/ProtectedRoute'
+import UnProtectedRoute from './routes/UnProtectedRoute'
 
 function App() {
-  const token = localStorage.getItem('token')
 
   return (
     <>
-
       <BrowserRouter>
         <Header />
 
         <Routes>
-          <Route path="/" element={<ListBlog/>} />
-          <Route path="/myblog" element={<h1>My blog</h1>} />
-          <Route path="/addblog" element={token ? (
-            <AddBlogForm />
-          ) : (
-            <button className='p-2 bg-blue-400 text-white'>
-              Login
-            </button>
-          )} />
+          <Route path = "/" element={<ProtectedRoute/>}>
+            <Route index element={<ListBlog/>}/>
+            <Route path="addblog" element={<AddBlogForm/>}/>
+            <Route path="editblog/:id" element={<EditBlogForm/>}/>
+          </Route>
+
+          <Route path= "/auth" element={<UnProtectedRoute/>}>
+            <Route path="register" element={<Register/>}/>
+          </Route>
+         
         </Routes>
       </BrowserRouter>
 
