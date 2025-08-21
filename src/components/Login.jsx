@@ -15,7 +15,7 @@ function Login() {
   },[token])
 
   const loginUser = async () => {
-    const response = await fetch("https://common-blog-backend.onrender.com/auth/login", {
+    const response = await fetch(`${import.meta.env.BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

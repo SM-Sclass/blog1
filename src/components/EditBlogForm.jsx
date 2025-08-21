@@ -14,7 +14,7 @@ function EditBlogForm() {
 
 
   const updateBlog = async()=>{
-    const response = await fetch(`https://common-blog-backend.onrender.com/blog/${params.id}`,{
+    const response = await fetch(`${process.env.BASE_URL}/blog/${params.id}`,{
       method:"PUT",
       headers: {
         'Content-type': 'application/json'

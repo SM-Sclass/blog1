@@ -18,7 +18,7 @@ function AddBlogForm() {
     formData.append("content", content)  
     formData.append("image_url", imageFile) 
 
-    const response = await fetch("https://common-blog-backend.onrender.com/blog", {
+    const response = await fetch(`${process.env.BASE_URL}/blog`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}` // new
