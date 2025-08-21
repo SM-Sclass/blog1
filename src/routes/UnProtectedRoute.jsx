@@ -1,13 +1,15 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
 
 function UnProtectedRoute() {
     const navigate = useNavigate()
-    const token = localStorage.getItem('token')
+    const [token, setToken] = useState(localStorage.getItem('token'))
 
-    if (token) {
-        navigate('/')
-    }
+    useEffect(()=>{
+        if(token){
+            navigate("/")
+        }
+      },[])
     
     return (
         <Outlet />

@@ -1,26 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function AddBlogForm() {
+  const fileInputRef = useRef()
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [image_url, setImage_Url] = useState('')
+  const [imageFile, setImageFile] = useState(null)
+  const [tempUrl, setTempUrl] = useState('')
+
+
 
   const createBlog = async () => {
-    const response = await fetch("http://localhost:5000/blog", {
+
+    const formData = new FormData()
+    formData.append("title", title)  
+    formData.append("content", content)  
+    formData.append("image_url", imageFile) 
+
+    const response = await fetch("https://common-blog-backend.onrender.com/blog", {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json'
+        Authorization: `Bearer ${localStorage.getItem('token')}` // new
       },
-      body: JSON.stringify({
-        title,
-        content,
-        userId: "6892e12270ba8348d14ea038",
-        image_url
-      })
+      body: formData
     })
 
     const data = await response.json()
-    console.log(data)
+    navigate("/")
   }
 
   const handleSubmit = (e) => {
@@ -37,7 +44,18 @@ function AddBlogForm() {
     createBlog()
     setTitle('')
     setContent('')
-    setImage_Url('')
+    setImageFile('')
+  }
+
+  const handleFileUpload = (e) => {
+    setImageFile(e.target.files[0])
+  }
+
+  const handleRemove = () => {
+    setImageFile(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
   }
 
   return (
@@ -53,11 +71,18 @@ function AddBlogForm() {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <input type='text' placeholder='Image url'
-          className='p-2'
-          value={image_url}
-          onChange={(e) => setImage_Url(e.target.value)}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileUpload}
         />
+        {imageFile && <p>{imageFile.name}</p>}
+        {imageFile && <button onClick={handleRemove}>Remove image</button>}
+        {imageFile && <img
+          src={URL.createObjectURL(imageFile)        }
+          className='w-56'
+        />}
 
         <button className='bg-blue-400 text-white p-2'>Add Blog</button>
       </form>

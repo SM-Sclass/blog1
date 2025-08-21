@@ -6,7 +6,7 @@ function ListBlog() {
   const [blogData, setBlogData] = useState(null)
 
   const fetchBlogData = async () => {
-    const response = await fetch("http://localhost:5000/blog")
+    const response = await fetch("https://common-blog-backend.onrender.com/blog")
     const data = await response.json()
     setBlogData(data.data)
   }

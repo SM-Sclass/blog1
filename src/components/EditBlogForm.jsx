@@ -1,28 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
+import EditContext from '../context/use-blogdata'
 
 function EditBlogForm() {
   const params = useParams()
+  const values = useContext(EditContext)
+ 
+  const [title, setTitle] = useState(values.editingBlogData.title) // null
+  const [content, setContent] = useState(values.editingBlogData.content)
+  const [image_url, setImage_Url] = useState(values.editingBlogData.image_url)
+  const [userId, setUserId] = useState(values.editingBlogData.userId._id)
 
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [image_url, setImage_Url] = useState('')
-  const [userId, setUserId] = useState('')
-
-  const fetchBlog = async () => {
-    const response = await fetch(`http://localhost:5000/blog/${params.id}`)
-    const data = await response.json()
-    setTitle(data.title)
-    setContent(data.content)
-    setImage_Url(data.image_url)
-    setUserId(data.userId)
-  }
-
-  (!title && !content && !userId ) && fetchBlog()
 
 
   const updateBlog = async()=>{
-    const response = await fetch(`http://localhost:5000/blog/${params.id}`,{
+    const response = await fetch(`https://common-blog-backend.onrender.com/blog/${params.id}`,{
       method:"PUT",
       headers: {
         'Content-type': 'application/json'
@@ -58,6 +50,7 @@ function EditBlogForm() {
   }
 
   return (
+    
     <div className='p-4'>
       <form className='space-y-3 flex flex-col' onSubmit={handleSubmit}>
         <input type='text' placeholder='Title'
