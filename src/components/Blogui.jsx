@@ -9,15 +9,15 @@ function Blogui(blog) {
 
   return (
     <div className='p-4 m-3 space-y-2 border border-black rounded-md'>
-      {blog.blog.image_url && <img
-        src={blog.blog.image_url}
+      {blog?.blog?.image_url && <img
+        src={blog?.blog?.image_url}
         className='w-56 h-56'
       />}
       <div className='flex justify-end' >
 
 
         <button onClick={() => {
-          values.setEditingBlogData(blog.blog)
+          values.setEditingBlogData(blog?.blog)
           Navigate(`/editblog`)
         }}>
           Edit
@@ -28,8 +28,8 @@ function Blogui(blog) {
 
         
       </div>
-      <h3>{blog.blog.title}</h3>
-      <p>{blog.blog.content}</p>
+      <h3>{blog?.blog?.title}</h3>
+      <p>{blog?.blog?.content}</p>
     </div>
   )
 }
